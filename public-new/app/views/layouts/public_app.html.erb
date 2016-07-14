@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%=  (@page_title.blank? ? '' : "#{@page_title} | ") %><%= I18n.t('brand.title') %></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+
+</head>
+<body>
+    <section id="header">
+      <div class="row collapse expanded fullwidth valign-middle">
+	<div class="small-8 columns"><h1><a title="<%=I18n.t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"> <%= I18n.t('brand.title') %></a></h1></div>
+
+	<div class="small-4 columns logo">
+          <img src="/img/Aspace-logo.png" />
+	</div>
+      </div>
+    </section>
+    <section id="navigation">
+      <div class="top-bar" role="navigation">
+	<div class="top-bar-left">
+          <!-- Left Nav Section -->
+          <ul class="dropdown menu" data-dropdown-menu>
+            <%# TODO: if only one Repository, don't display this line %>
+            <li><a href="/repositories"><%= I18n.t('repository._plural') %></a></li>
+            <li><a href="/search?recordtype=collection"><%= I18n.t('resource._plural') %></a></li>
+            <li><a href="/search?recordtype=digital_object"><%= I18n.t('digital_object._plural') %></a></li>
+            <li><a href="/search?recordtype=accession"><%= I18n.t('unprocessed') %></a></li>
+            <li><a href="/search?recordtype=subject"><%= I18n.t('subject._plural') %></a></li>
+            <li><a href="/search?recordtype=agent_person&type=agent_family&type=agent_corporate_entity"><%= I18n.t('all_agents') %></a></li>
+            <li><a href="/search?recordtype=classification"><%= I18n.t('record_group._plural') %></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  <section id="container">
+<%= yield %>
+
+  </section>
+
+<!--  <div class="reveal" id="wait-modal" data-reveal data-options="animation_speed: 0; close_on_background_click: false; close_on_esc: false;" style="background-color: transparent; border: 0px; box-shadow: 0 0 0 0;">
+    <div class="center">
+      <div class="la-line-spin-clockwise-fade la-3x">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+
+  <%= javascript_include_tag "application" %>
+-->
+
+
+</body>
+</html>
