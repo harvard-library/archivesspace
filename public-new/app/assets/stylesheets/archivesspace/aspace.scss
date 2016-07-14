@@ -294,6 +294,9 @@ li.remove {
   background-position: right;
   background-repeat: no-repeat;
 }
+ul.no-bullets {
+  list-style-type: none;
+}
 
 .facet-group {
   list-style-type: none !important;
@@ -333,6 +336,10 @@ li.remove {
   float: right;
 }
 
+.center {
+  margin-right: auto;
+  margin-left: auto;
+}
 
 /* search results */
 
@@ -437,4 +444,8 @@ i.giant {
 .inline-label {
   font-weight: bold;
   font-family: $serif-font;
+}
+
+.clear {
+       clear: both;
 }
