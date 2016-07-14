@@ -1,8 +1,13 @@
 en:
   brand:
     title: ArchivesSpace Public Interface
+    title_link_text: Your link text here
     home: Home
-    welcome_message: Welcome to ArchivesSpace.
+    welcome_head: Welcome to the New Public Interface
+    welcome_message: |
+                     <p> You can put anything you want in this space, by 
+                     editing <strong>brand.welcome_message</strong> in the appropriate <em>config/locales/*yml</em> file</p>
+
     welcome_search_label: "Find what you're looking for:"
 
   actions:
@@ -108,6 +113,8 @@ en:
       show: Show Advanced Search
       hide: Hide Advanced Search
 
+  listing: Listing
+
   accession:
     _public:
       section:
@@ -120,6 +127,12 @@ en:
         summary: Summary
       messages:
         no_components: Archival Object has no components
+
+  repository:
+    _singular: Repository
+    _plural: Repositories
+    what: What's in this Repository?
+
 
   resource:
     _singular: Collection
@@ -136,6 +149,8 @@ en:
     _plural: Related Collections
 
   digital_object: &digital_object_attributes
+    _singular: Digital Item
+    _plural: Digital Items
     _public:
       section:
         components: Components
@@ -150,6 +165,22 @@ en:
         summary: Summary
       messages:
         no_components: Digital Object Component has no components
+
+  subject:
+    _singular: Subject
+    _plural: Subjects
+
+  unprocessed: Unprocessed Material
+
+  all_agents: People & Organizations
+
+  record:
+    _singular: Record
+    _plural: Records
+
+  record_group:
+    _singular: Record Group
+    _plural: Record Groups
 
   agent:
     _singular: Name
@@ -169,3 +200,11 @@ en:
   record_tree:
     record_tree_tab: Record Tree
     search_tab: Search Components
+
+  location: Location
+
+  contact: Contact
+
+  hours: Hours
+
+  number_of: Number of

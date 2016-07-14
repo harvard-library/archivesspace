@@ -1,0 +1,26 @@
+
+<div id="main-content" class="columns small-12">
+  <div class="abstract">
+<%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
+
+    <div id="whats-in-repo-container" class="row collapse activated">
+      <div class="columns small-12">
+      
+	<h3><%= I18n.t('repository.what') %> </h3>
+	<ul class="small-block-grid-5 no-bullets">
+	<li class="large-badge align-center resource"><i class="fi-clipboard-notes large"></i><br />
+	<%= @result['count'] %> <%= (@result['count'] != 1 ? I18n.t('resource._plural') :  I18n.t('resource._singular')) %>
+	</li>
+	<li class="large-badge align-center archival-object"><i class="fi-archive large"></i><br />
+	<%= @rec_ct %> <%= (@rec_ct != 1 ? I18n.t('record._plural') :  I18n.t('record._singular')) %>
+	</li>
+	<li class="large-badge align-center subject"><i class="fi-pricetag-multiple large"></i><br />
+	  <%= @subj_ct %> <%= (@subj_ct != 1 ? I18n.t('subject._plural'): I18n.t('subject._singular')) %>
+	</li>
+	<li class="large-badge align-center agent-person"><i class="fi-address-book large"></i><br />
+	<%= @agent_ct %> <%= I18n.t('all_agents') %>
+	</li>
+      </ul>
+    </div>
+  </div>
+</div>

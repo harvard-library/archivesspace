@@ -23,6 +23,7 @@ ArchivesSpacePublic::Application.routes.draw do
       match 'api/repositories/:repo_id' => 'records#repository', :via => [:get]
 
 
+      match 'api/trees/path' => 'trees#get_path', :via => [:get]
       match 'api/trees' => 'trees#fetch', :via => [:get]
 
       match 'api/search' => 'search#search', :via => [:get]
@@ -30,6 +31,9 @@ ArchivesSpacePublic::Application.routes.draw do
 
       match 'api/(*url)' => "site#bad_request", :via => [:get]
 
+      get '/welcome' => "welcome#show"
+      get "repositories/:id" => 'repositories#show'
+      get '/repositories' => 'repositories#index'
       get '/(*url)' => "site#index"
 
 
