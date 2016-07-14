@@ -3,7 +3,7 @@ class TreesController < ApplicationController
   def fetch
     response = JSONModel::HTTP::get_json("/search/published_tree", :node_uri => params[:node_uri])
 
-    Rails.logger.debug(response.inspect)
+    #Rails.logger.debug(response.inspect)
     return nil unless response and response.has_key?('tree_json')
     tree = ASUtils.json_parse(response['tree_json'])
 
