@@ -74,6 +74,7 @@ class RepositoriesController < ApplicationController
     unless @data['results'].blank?
       @result = JSON.parse(@data['results'][0]['json'])
       @result['count'] = resources
+      @page_title = @result['name']
       render :layout => 'layouts/public_app'
     end
   end
