@@ -10,7 +10,7 @@
     .navigation-row {
 
       > div:first-child {
-        background-color: $lightblue;
+        background-color: $primary-color;
 
         .arrow-down {
           @include css-triangle(rem-calc(6), $white, 'down');
@@ -22,7 +22,7 @@
       }
 
       > div:last-child {
-        background-color: $lightgrey;
+        background-color: $row-background;
       }
 
     }

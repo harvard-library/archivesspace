@@ -1,10 +1,10 @@
 #whats-in-repo-container.activated {
 
-  border: 1px solid $grey;
+  border: 1px solid $border;
 
   h3 {
-    background-color: $lightgrey;
-    border-bottom: 1px solid $grey;
+    background-color: $row-background;
+    border-bottom: 1px solid $border;
     padding-left: rem-calc(10);
     padding-top: rem-calc(6);
     padding-bottom: rem-calc(6);

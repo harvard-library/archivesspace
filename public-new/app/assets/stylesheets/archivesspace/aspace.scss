@@ -10,7 +10,7 @@ html {
     margin-right: 0;
     padding-left: rem-calc(60);
     padding-right: rem-calc(40);
-    border-bottom: rem-calc(4) solid $lightblue;
+    border-bottom: rem-calc(4) solid $primary-color;
     width: 100%;
   }
 
@@ -22,8 +22,8 @@ html {
 .top-bar {
   padding-left: rem-calc(45);
   background: $lightgrey !important;
-  border-top: 1px solid $darkblue;
-  border-bottom: rem-calc(1) solid $darkblue;
+  border-top: 1px solid $border-accent;
+  border-bottom: rem-calc(1) solid $border-accent;
 
   .top-bar-section ul li {
     background: none !important;
@@ -53,7 +53,7 @@ html {
     width: $row-width;
 
     .small-12 {
-      border: 1px solid $grey;
+      border: 1px solid $border;
     }
   }
 }
@@ -76,11 +76,11 @@ html {
 }
 
 #sidebar {
-  border: 1px solid $grey;
+  border: 1px solid $border;
   padding: rem-calc(20);
 
   h3 {
-    color: $midblue;
+    color: $secondary-color;
   }
 }
 
@@ -105,7 +105,7 @@ html {
 
 .record-container.with-border {
   padding: rem-calc(20);
-  border: 1px solid $grey;
+  border: 1px solid $border;
 }
 
 
@@ -149,7 +149,7 @@ html {
 .record-image {
   float: right;
   padding: rem-calc(20);
-  background-color: $grey;
+  background-color: $image-background;
   text-align: center;
 
   p {
@@ -171,23 +171,23 @@ html {
 
 .row.context-row {
   margin-top: rem-calc(10);
-  background-color: $lightgrey;
-  border: 1px solid $grey;
+  background-color: $row-background;
+  border: 1px solid $border;
   padding-left: rem-calc(10);
 }
 
 .recordrow {
   padding: rem-calc(20);
-  border: 1px solid $grey;
+  border: 1px solid $border;
   margin-bottom: rem-calc(10);
 
   &.featured {
-    background-color: $lightgrey;
+    background-color: $row-background;
   }
 
 
   h3 {
-    color: $midblue;
+    color: $secondary-color;
   }
 
   .recordsummary {
@@ -203,7 +203,7 @@ html {
 
 
 a {
-  color: $midblue;
+  color: $secondary-color;
 }
 
 a:hover {
@@ -221,14 +221,14 @@ h1 {
   font-family: $sans-font;
   font-size: rem-calc(36);
   font-weight: bold;
-  color: $darkblue;
+  color: $primary-color;
 }
 
 h2 {
   font-family: $sans-font;
   font-size: rem-calc(28);
   font-weight: bold;
-  color: $darkblue;
+  color: $accent-color;
 }
 
 h3 {
@@ -303,11 +303,11 @@ ul.no-bullets {
   margin-left: 0;
 
   li {
-    border-top: 1px solid $grey;
+    border-top: 1px solid $border;
   }
 
   li:last-child {
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid $border;
   }
 
 
@@ -317,7 +317,7 @@ ul.no-bullets {
 
   li > .recordnumber {
     float: right;
-    color: $midblue;
+    color: $secondary-color;
     /* position: absolute; */
     /* right: 20px; */
   }

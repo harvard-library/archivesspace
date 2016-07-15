@@ -22,7 +22,7 @@
     }
 
     .first-row {
-      background: $midblue;
+      background: $secondary-color;
       height: rem-calc(100);
 
       p {
@@ -66,15 +66,15 @@
   }
 
   .search-panel {
-    background: $lightgrey;
+    background: $row-background;
 
     .button {
-      background: $lightgrey;
+      background: $alt-button-background;
       color: $black;
     }
 
     .second-row .button {
-      background: $lightblue;
+      background: $button-background;
     }
 
     /* .button:after { */
@@ -83,7 +83,7 @@
 
     .search-query-row {
       .button {
-        background: $midblue;
+        background: $secondary-color;
         color: $white !important;
       }
 
@@ -102,7 +102,7 @@
 
 
 .search-panel-blue {
-  background: $darkblue;
+  background: $accent-color;
   padding-top: rem-calc(20);
 
   p a {
@@ -123,11 +123,11 @@
 
   .search-query-row {
     .button {
-      color: $darkgrey !important;
+      color: $alt-button-color !important;
     }
 
     .button.dropdown::after {
-      border-color: $darkgrey transparent transparent transparent;
+      border-color: $alt-button-color transparent transparent transparent;
     }
   }
 

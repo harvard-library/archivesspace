@@ -1,10 +1,10 @@
 .sidebar-container {
   padding: rem-calc(10);
   margin-top: rem-calc(10);
-  border: 1px solid $grey;
+  border: 1px solid $border;
 
   h3 {
-    color: $midblue;
+    color: $secondary-color;
   }
 
   .identifier {
@@ -22,7 +22,7 @@
 
   .jstree-icon {
     float: left;
-    color: $lightblue;
+    color: $primary-color;
 
     &.jstree-ocl {
       width: rem-calc(20);
@@ -68,7 +68,7 @@
 
 
     .component-id {
-      color: $lightblue;
+      color: $primary-color;
     }
   }
 }
@@ -83,12 +83,12 @@
     margin-right: rem-calc(20);
     padding-left: rem-calc(20);
     padding-right: rem-calc(20);
-    border: 1px solid $grey;
-    background-color: $lightgrey;
+    border: 1px solid $border;
+    background-color: $row-background;
   }
 
   .search-collection-content-form {
-    border-top: 1px solid $grey;
+    border-top: 1px solid $border;
     padding-top: rem-calc(20);
 
     input {
@@ -99,7 +99,7 @@
 
     button {
       border-radius: rem-calc(10);
-      background-color: $lightblue;
+      background-color: $button-background;
     }
   }
 

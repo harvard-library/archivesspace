@@ -21,6 +21,6 @@ $button-font-color: $white;
 
 .keywordscontext {
   .button {
-    @include button-style($grey, $darkgrey, $black);
+    @include button-style($image-background, $alt-button-color, $black);
   }
 }
