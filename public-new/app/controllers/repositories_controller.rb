@@ -1,5 +1,4 @@
 class RepositoriesController < ApplicationController
-  include ManipulateNode
   include HandleFaceting
   def index
     @criteria = {}
@@ -10,7 +9,7 @@ class RepositoriesController < ApplicationController
     if !facets.blank?
       repos = facets['repository']
       facets_ct = (repos.length / 2)
-      Rails.logger.debug("repos.length: #{repos.length}")
+#      Rails.logger.debug("repos.length: #{repos.length}")
       repos.each_slice(2) do |r, ct|
         facets[r] = ct if (ct > 0 || include_zero )
       end
@@ -45,8 +44,9 @@ class RepositoriesController < ApplicationController
           @json.push(hash)
         end
       end
+#      Rails.logger.debug("First hash: #{@json[0]}")
     end
-    @json.sort_by!{|h| h['name'].upcase}
+    @json.sort_by!{|h| h['display_string'].upcase}
     @page_title = (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular')) +  " " + I18n.t('listing') 
     render :layout => 'layouts/public_app'
   end
