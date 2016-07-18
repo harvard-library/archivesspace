@@ -1,10 +1,10 @@
 <% if !full %>
    <div class="recordrow">
 <% end %>
-      <h3><a class="record-title" href="<%= result['uri'] %>"> <%= result['name']%> (<%= result['repo_code'] %>)</a></h3>
+      <h3><a class="record-title" href="<%= result['uri'] %>"> <%= result['display_string']%></a></h3>
       <div class="badge-and-identifier">
         <div class="record-type-badge repository">
-          <i class="fi-home small"></i>&#160;Repository
+          <i class="fi-home small"></i>&#160;<%= I18n.t('repository._singular') %>
         </div>
         <div class="identifier">
           <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>

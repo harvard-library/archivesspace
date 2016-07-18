@@ -30,6 +30,8 @@ en:
     page_connector: of
 
   search_results:
+    head_prefix: Found
+    head_suffix: Results
     searching: Searching
     title: All Records
     no_results: No Records
