@@ -15,8 +15,10 @@ module ManipulateNode
 
     # Don't fire up nokogiri if there's no mixed content to parse
     needs_nokogiri = in_txt.include?("<")
-
-    txt = in_txt.strip
+# fix per master after v2.2.2
+    txt = in_txt.strip.encode(
+        Encoding.find('utf-8'), { invalid: :replace, undef: :replace, replace: '' }
+    )
 
     txt = txt.gsub("chronlist>", "ul>")
       .gsub("chronitem>", "li>")
@@ -44,7 +46,8 @@ module ManipulateNode
       el.content = el.text.gsub("\"", "&quot;") if el.text?
     }
     # replace the inline quotes with &quot;
-    @frag.to_xml.to_s.gsub("&amp;quot;", "&quot;")
+# fix per master after v2.2.2
+    @frag.to_xml(encoding: 'utf-8').to_s.gsub("&amp;quot;", "&quot;")
   end
 
   # strips all xml markup; used for things like titles.
