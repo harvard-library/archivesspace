@@ -187,7 +187,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       currentSort = JSON.parse(currentSort);
     }
   }
-  
+
   var tablesorter_opts = {
     // only sort on the second row of header columns
     selectorHeaders: "thead tr.sortable-columns th",
@@ -213,7 +213,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
         }
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
-        
+
         // turn the indicator into a string of alternating non-number/padded-number values separated by commas for sorting
         // eg "box,#############11,folder,#############4"
         return parseIndicator(value);
