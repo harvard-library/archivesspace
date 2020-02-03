@@ -1,6 +1,8 @@
 <%
-   if params['collection_resource'].blank?
+   if params['collection_resource'].blank? && !$tc_search_again_resource
      selected_json = "{}"
+   elsif $tc_search_again_resource
+     selected_json = $tc_search_again_resource
    else
      selected_json = params['collection_resource']['_resolved']
    end

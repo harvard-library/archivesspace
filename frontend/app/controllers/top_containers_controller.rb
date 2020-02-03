@@ -109,6 +109,12 @@ class TopContainersController < ApplicationController
 
 
   def bulk_operation_search
+    $tc_search_again_resource = nil
+    
+    if params['collection_resource']
+      $tc_search_again_resource = params["collection_resource"]["_resolved"]
+    end
+
     begin
       results = perform_search
     rescue MissingFilterException
