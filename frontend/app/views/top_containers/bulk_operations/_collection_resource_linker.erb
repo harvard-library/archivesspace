@@ -1,12 +1,11 @@
 <%
-   if params['collection_resource'].blank? && !$tc_search_again_resource
+   if params['collection_resource'].blank? && !@top_container_previous_search["resource"]
      selected_json = "{}"
-   elsif $tc_search_again_resource
-     selected_json = $tc_search_again_resource
+   elsif @top_container_previous_search["resource"]
+     selected_json = @top_container_previous_search["resource"].to_json
    else
      selected_json = params['collection_resource']['_resolved']
    end
-
 %>
 
 <div class="input-group linker-wrapper">
