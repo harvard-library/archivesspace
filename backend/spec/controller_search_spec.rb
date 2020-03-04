@@ -45,4 +45,40 @@ describe 'Search controller' do
     end
 
   end
+
+  describe "correctly indexes and searches subcontainers" do
+
+    it "verifies that grandchild container indicator appears in search" do
+      # Save top container to the database
+      # TODO: how to impersonate admin user to create records in the database?
+      top_container = create(:json_top_container)
+
+      as_test_user("admin") do
+        top_container = create(:json_top_container)
+      end
+
+      # Question: Will this be handled by the periodic indexer?
+      instances = [{ instance_type: 'box',
+        sub_container:
+          {
+            :top_container => { ref: top_container.uri },
+            :type_2 => "folder",
+            :indicator_2 => "a-test-indicator",
+            :type_3 => "folder",
+            :indicator_3 => "cattywampus", # unique string to test search
+          }
+        }
+      ]
+
+      # Save resource to the database
+      as_test_user("admin") do
+        resource = create(:resource,
+                          instances: instances,
+                        )
+      end
+
+    #run_index_round
+
+  end
 end
+
