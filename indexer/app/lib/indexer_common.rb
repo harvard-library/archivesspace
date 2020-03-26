@@ -118,6 +118,7 @@ class IndexerCommon
   end
 
 
+
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
@@ -618,8 +619,12 @@ class IndexerCommon
             doc['top_container_uri_u_sstr'] ||= []
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
             if instance['sub_container']['type_2']
+              child_type = instance['sub_container']['type_2']
+              child_indicator = instance['sub_container']['indicator_2']
               doc['child_container_u_sstr'] ||= []
-              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']}"
+              doc['child_container_u_typeahead_usort'] ||= ""
+              doc['child_container_u_sstr'] << "#{child_type} #{child_indicator}"
+              doc['child_container_u_typeahead_usort'] << "#{child_type} #{child_indicator},"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
