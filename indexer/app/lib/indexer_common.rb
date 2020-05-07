@@ -596,7 +596,7 @@ class IndexerCommon
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
         doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
-        doc['top_container_u_typeahead_usort'] = record['record']['display_string']
+        doc['top_container_u_icusort'] = record['record']['display_string']
 
         doc['barcode_u_sstr'] = record['record']['barcode']
         doc['barcode_u_ssort'] = record['record']['barcode']
@@ -622,9 +622,9 @@ class IndexerCommon
               child_type = instance['sub_container']['type_2']
               child_indicator = instance['sub_container']['indicator_2']
               doc['child_container_u_sstr'] ||= []
-              doc['child_container_u_typeahead_usort'] ||= ""
+              doc['child_container_u_icusort'] ||= ""
               doc['child_container_u_sstr'] << "#{child_type} #{child_indicator}"
-              doc['child_container_u_typeahead_usort'] << "#{child_type} #{child_indicator},"
+              doc['child_container_u_icusort'] << "#{child_type} #{child_indicator},"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
