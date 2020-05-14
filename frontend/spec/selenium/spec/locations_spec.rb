@@ -42,6 +42,10 @@ describe 'Locations' do
     @driver.clear_and_send_keys([:id, 'location_coordinate_1_label_'], 'Box XYZ')
     @driver.clear_and_send_keys([:id, 'location_coordinate_1_indicator_'], 'XYZ0001')
 
+    @driver.clear_and_send_keys([:id, 'token-input-location_owner_repo__ref_'], 'l')
+    sleep 2
+    @driver.find_element(css: '.token-input-dropdown').click
+
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
