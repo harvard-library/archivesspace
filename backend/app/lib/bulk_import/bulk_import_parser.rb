@@ -1,5 +1,5 @@
 require_relative "bulk_import_mixins"
-require_relative "../../../lib/uri_resolver"
+require_relative "../uri_resolver"
 require "nokogiri"
 require "pp"
 require "rubyXL"

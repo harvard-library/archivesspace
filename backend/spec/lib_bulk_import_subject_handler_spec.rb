@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/subject_handler"
+require_relative "../app/lib/bulk_import/subject_handler"
 
 describe "Subject Handler" do
   before(:each) do

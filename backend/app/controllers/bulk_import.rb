@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require_relative "lib/bulk_import/bulk_import_mixins"
-require_relative "lib/bulk_import/top_container_linker_validator"
 
 class ArchivesSpaceService < Sinatra::Base
   require_relative "lib/bulk_import/bulk_importer"

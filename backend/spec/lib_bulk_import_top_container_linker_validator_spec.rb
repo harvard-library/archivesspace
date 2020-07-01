@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/top_container_linker_validator"
+require_relative "../app/lib/bulk_import/top_container_linker_validator"
 
 describe "Top Container Linker Validator" do   
 
