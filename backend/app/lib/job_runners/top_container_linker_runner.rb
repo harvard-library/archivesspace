@@ -1,4 +1,4 @@
-require_relative "../../controllers/lib/bulk_import/top_container_linker"
+require_relative "../bulk_import/top_container_linker"
 
 class TopContainerLinkerRunner < JobRunner
 
