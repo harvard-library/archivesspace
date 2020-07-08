@@ -24,9 +24,23 @@ class ContainerInstanceHandler < Handler
       :barcode => barcode,
     }
   end
-
+ 
+  def get_top_container_json_from_hash(type, indicator, barcode, resource)
+    top_container_json = build(type, indicator, barcode)
+    tc_key = key_for(top_container_json, resource)
+    tc = @top_containers.fetch(tc_key, nil)
+    tc
+  end
+    
   # returns a top container JSONModel
   def get_or_create(type, indicator, barcode, resource, report)
+    Log.info("LOG INFO container_instance_handler.rb get_or_create")
+    Log.info("type")
+    Log.info(type)
+    Log.info("indicator")
+    Log.info(indicator)
+    Log.info("barcode")
+    Log.info(barcode)
     begin
       top_container = build(type, indicator, barcode)
       tc_key = key_for(top_container, resource)
@@ -54,7 +68,6 @@ class ContainerInstanceHandler < Handler
     repo_id = resource_uri.split("/")[2]
     if !(ret_tc = get_db_tc_by_barcode(top_container[:barcode], repo_id))
       tc_str = "#{top_container[:type]} #{top_container[:indicator]}"
-      # tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
       tc_params = {}
       tc_params[:q] = "display_string:\"#{tc_str}\" AND collection_uri_u_sstr:\"#{resource_uri}\""
       ret_tc = search(nil, tc_params, :top_container, "top_container", "display_string:#{tc_str}")
@@ -83,6 +96,17 @@ class ContainerInstanceHandler < Handler
   #
   def validate_container_instance(instance_type, type, instance, errs, subcont = {})
     sc = { "jsonmodeltype" => "sub_container" }
+    Log.info("LOG INFO container_instance_handler.rb validate_container_instance")
+    Log.info("sc")
+    Log.info(sc)
+    Log.info("instance_type")
+    Log.info(instance_type)
+    Log.info("type")
+    Log.info(type)
+    Log.info("instance")
+    Log.info(instance)
+    Log.info("errs")
+    Log.info(errs)
     if instance_type.nil?
       errs << I18n.t("bulk_import.error.missing_instance_type")
     else
@@ -92,15 +116,42 @@ class ContainerInstanceHandler < Handler
       if subcont["type_#{num}"]
         sc["type_#{num}"] = value_check(@container_types, subcont["type_#{num}"], errs)
         sc["indicator_#{num}"] = subcont["indicator_#{num}"] || "Unknown"
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
     sc
+  end
+ 
+  #Formats the container instance without a db retrieval or creation
+  def format_container_instance(instance_type, tc, subcont = {})
+    instance = nil
+    sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    instance = JSONModel(:instance).new._always_valid!
+    instance.instance_type = @instance_types.value(instance_type)
+    instance.sub_container = JSONModel(:sub_container).from_hash(sc)
+    instance
   end
 
   def create_container_instance(instance_type, type, indicator, barcode, resource_uri, report, subcont = {})
     errs = []
     instance = JSONModel(:instance).new._always_valid!
     sc = validate_container_instance(instance_type, type, instance, errs, subcont)
+    Log.info("LOG INFO container_instance_handler.rb create_container_instance")
+    Log.info("create_container_instance validate_container_instance sc")
+    Log.info(sc)
+    Log.info("instance_type")
+    Log.info(instance_type)
+    Log.info("type")
+    Log.info(type)
+    Log.info("instance")
+    Log.info(instance)
     tc = get_or_create(type, indicator, barcode, resource_uri, report)
     unless @validate_only || tc.nil? || sc.nil?
       begin
@@ -114,6 +165,13 @@ class ContainerInstanceHandler < Handler
     end
     if !errs.empty?
       raise BulkImportException.new(errs.join("; "))
+    end
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = value_check(@container_types, subcont["type_#{num}"], errs)
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || "Unknown"
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
     end
     instance
   end
