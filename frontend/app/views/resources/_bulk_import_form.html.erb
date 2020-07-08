@@ -48,6 +48,9 @@
 
     <div class="modal-footer">
       <button id="bulkFileButton" class="btn btn-primary bulkbtn"><%= I18n.t('bulk_import._frontend.actions.import') %></button>
+      <% if type == 'resource' %>
+      	<button id="linkTopContainersButton" class="btn btn-primary bulkbtn"><%= I18n.t('bulk_import._frontend.actions.link_top_containers') %></button>	
+      <% end %>
       <button class="btn btn-cancel btn-default bulkbtn" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
     </div>
    <% end %>

@@ -40,9 +40,11 @@ class BulkImportParser
     @start_position
     @need_to_move = false
     @log_method = log_method
-    @is_xslx = @file_content_type == "xlsx"
-    @is_csv = @file_content_type == "csv"
+    @is_xslx = file_is_xslx?
+   	@is_csv = file_is_csv?  
     @validate_only = opts[:validate]
+    initialize_handler_enums
+    @counter = 0
   end
 
   def record_uris
@@ -131,6 +133,23 @@ class BulkImportParser
   end
 
   private
+  
+	def file_is_xslx?
+    return @file_content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || @extension == ".xslx"
+  end
+
+  #MS Excel in Windows assigns a CSV file a mime type of application/vnd.ms-excel
+  #The other suggestions are also some variations of other csv mime types found.  This is a catch-all
+  def file_is_csv?
+    return @file_content_type == "text/csv" || @file_content_type == "text/plain" \
+    || @file_content_type == "text/x-csv" \
+    || @file_content_type == "application/vnd.ms-excel" \
+    || @file_content_type == "application/csv" \
+    || @file_content_type == "application/x-csv" \
+    || @file_content_type == "text/comma-separated-values" \
+    || @file_content_type == "text/x-comma-separated-values" \
+    || @extension == ".csv"
+  end
 
   def find_headers
     while @headers.nil? && (row = @rows.next)
