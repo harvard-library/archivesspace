@@ -24,7 +24,11 @@ class JobsController < ApplicationController
     @job_type = params['job']['job_type']
 
     job_data = params['job']
-
+    
+    if (job_data['resource_id'])
+      job_data['resource_id'] = job_data['resource_id'].to_i
+    end
+        
     # Knock out the _resolved parameter because it's often very large
     # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
@@ -41,7 +45,7 @@ class JobsController < ApplicationController
                                   job_params
                    )
       uploaded = job.upload
-
+      
       if (params['ajax'])
         if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
           render :plain => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
