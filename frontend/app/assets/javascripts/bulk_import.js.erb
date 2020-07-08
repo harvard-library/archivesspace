@@ -116,6 +116,7 @@
 		    $("body").css("overflow", "auto");
 		});
     }
+
     var handleTopContainerLinking = function($modal) {
 	    /* don't let the modal disappear on submission */
 	    $modal.on("hide.bs.modal", function (event){
@@ -187,7 +188,7 @@
 		    event.preventDefault();
 		    handleTopContainerLinking($file_form_modal);
 		});
-		
+
 	    var clipboard = new Clipboard('.clip-btn');
 
 	    clipboard.on('success', function(e) {

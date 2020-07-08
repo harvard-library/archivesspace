@@ -56,6 +56,7 @@ describe "Bulk Import Mixins" do
 
     id = @no_ead_json.save
     @resource_no_ead = Resource.get_or_die(id)
+
     @tc = create_top_container()
     @sc = create_sub_container()
     
@@ -142,8 +143,7 @@ describe "Bulk Import Mixins" do
     ind_type_exist = indicator_and_type_exist_for_resource?(@resource.ead_id, @tc.indicator, @tc.type_id)
     expect(ind_type_exist).to be true
   end
-  
-  
+
   after(:each) do
     @no_ead_json.delete
     @resource_json.delete

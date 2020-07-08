@@ -4,13 +4,11 @@ require_relative "bulk_import_mixins"
 
 class CvList
   include CrudHelpers
-  
+
   @list = []
   @list_hash = {}
   @which = ""
   @current_user
-  
-  attr_reader :list_hash
 
   def initialize(which, current_user)
     @which = which
@@ -49,10 +47,9 @@ class CvList
     end
     @list_hash = list_hash
   end
-  
+
   #Determines if this is a value that can be used by the control list
   def is_valid_value?(value)
     @list_hash[label] || @list.index(label)     
   end
-  
 end

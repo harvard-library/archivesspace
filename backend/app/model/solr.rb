@@ -54,7 +54,7 @@ class Solr
 
         subqueries = clauses.join(" #{advanced_query['op']} ")
 
-        "#{subqueries}"
+        "(#{subqueries})"
       else
         AdvancedQueryString.new(advanced_query, use_literal).to_solr_s
       end
@@ -239,6 +239,7 @@ class Solr
       if @show_published_only
         # public ui
         add_solr_param(:fq, "publish:true")
+        add_solr_param(:fq, "types:pui")
       else
         # staff ui
         add_solr_param(:fq, "-types:pui_only")

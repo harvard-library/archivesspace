@@ -95,22 +95,23 @@ AppConfig[:solr_params] = { 'mm' => '100%' }
 AppConfig[:locale] = :en
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ["local", "lcnaf"]
+AppConfig[:plugins] = ['local',  'lcnaf']
 
 # The number of concurrent threads available to run background jobs
 # Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
-AppConfig[:oai_proxy_url] = "http://your-public-oai-url.example.com"
+AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
 # DEPRECATED OAI Settings: Moved to database in ANW-674
 # NOTE: As of release 2.5.2, these settings should be set in the Staff User interface
 # To change these settings, select Manage OAI-PMH Settings from the System menu in the staff interface
 # These three settings are at the top of the page in the General Settings section
 # These settings will be removed from the config file completely when version 2.6.0 is released
-AppConfig[:oai_admin_email] = "admin@example.com"
-AppConfig[:oai_record_prefix] = "oai:archivesspace"
-AppConfig[:oai_repository_name] = "ArchivesSpace OAI Provider"
+AppConfig[:oai_admin_email] = 'admin@example.com'
+AppConfig[:oai_record_prefix] = 'oai:archivesspace'
+AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
+
 
 # In addition to the sets based on level of description, you can define OAI Sets
 # based on repository codes and/or sponsors as follows
@@ -179,7 +180,7 @@ AppConfig[:pui_indexing_frequency_seconds] = 30
 AppConfig[:pui_indexer_records_per_thread] = 25
 AppConfig[:pui_indexer_thread_count] = 1
 
-AppConfig[:index_state_class] = "IndexState" # set to 'IndexStateS3' for amazon s3
+AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon s3
 # # store indexer state in amazon s3 (optional)
 # # NOTE: s3 charges for read / update requests and the pui indexer is continually
 # # writing to state files so you may want to increase pui_indexing_frequency_seconds
@@ -474,7 +475,7 @@ AppConfig[:record_inheritance] = {
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
-AppConfig[:pui_branding_img] = "archivesspace.small.png"
+AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 
 # The number of PDFs that can be generated (in the background) at the same time.
@@ -528,7 +529,7 @@ AppConfig[:pui_search_collection_from_collection_organization] = false
 AppConfig[:pui_enable_staff_link] = true
 # by default, staff link will open record in staff interface in edit mode,
 # change this to 'readonly' for it to open in readonly mode
-AppConfig[:pui_staff_link_mode] = "edit"
+AppConfig[:pui_staff_link_mode] = 'edit'
 
 # PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
@@ -663,6 +664,9 @@ AppConfig[:limit_csv_fields] = true
 
 # Turns fields for subcontainer barcodes on/off on the front end
 AppConfig[:show_subcontainer_barcode_fields] = false
+  
+# Use to specify the maximum number of columns to display when searching or browsing
+AppConfig[:max_search_columns] = 7
   
 # For Bulk Import:
 # specifies whether the "Load Digital Objects" button is available at the Resource Level
