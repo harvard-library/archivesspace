@@ -110,9 +110,13 @@ class BulkImportParser
     @report = BulkImportReport.new
     @headers
     @report.set_file_name(@orig_filename)
+<<<<<<< Upstream, based on aspace-core/master
     initialize_handler_enums
     jsonresource = Resource.to_jsonmodel(Integer(@opts[:rid]))
     @resource = resolve_references(jsonresource, ["repository"])
+=======
+    @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]), ["repository"])
+>>>>>>> b54fa29 Corrected tests to precreate containers into the container handler hash to avoid attempts to access via solr.
     @repository = @resource["repository"]["ref"]
     @hier = 1
     @counter = 0
