@@ -8,7 +8,10 @@ class ContainerInstanceHandler < Handler
 =======
     @container_types ||= CvList.new('container_type', current_user)
     @instance_types ||= CvList.new('instance_instance_type', current_user) # for when we move instances over here          
+<<<<<<< HEAD
 >>>>>>> 40d835e Top Container CSV download template Functionality for CSV/XLSX top container uploading for multiple AOs per resource.
+=======
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
   end
 
   def renew
@@ -29,9 +32,12 @@ class ContainerInstanceHandler < Handler
       :barcode => barcode,
     }
   end
+<<<<<<< HEAD
 <<<<<<< Upstream, based on aspace-core/master
 
 =======
+=======
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
   
   def get_top_container_json_from_hash(type, indicator, barcode, resource)
     top_container_json = build(type, indicator, barcode)
@@ -148,8 +154,11 @@ class ContainerInstanceHandler < Handler
     end
     instance
   end
+<<<<<<< HEAD
 <<<<<<< Upstream, based on aspace-core/master
 =======
+=======
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
   
   #Formats the container instance without a db retrieval or creation
   def format_container_instance(instance_type, tc, subcont = {})

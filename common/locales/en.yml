@@ -2041,7 +2041,10 @@ en:
       find_and_replace_job: Batch Find and Replace (Beta)
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
+<<<<<<< HEAD
       bulk_import_job: Load via Spreadsheet
+=======
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
       top_container_linker_job: Top Container Linker
     status: Status
     status_completed: Completed
@@ -2098,6 +2101,7 @@ en:
     filename: File
     content_type: File Type
     resource_id: Resource ID
+<<<<<<< HEAD
 
   bulk_import_job:
     resource_uri: Resource URI
@@ -2109,6 +2113,8 @@ en:
       xlsx: Excel Spreadsheet
       ao: Archival Object Load
       digital: Digital Object Load
+=======
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
 
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
@@ -2365,6 +2371,7 @@ en:
     clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
+<<<<<<< HEAD
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo or Error"
     log_complete: "Completed import of %{file}"
     log_validation: "Completed validate of %{file}"
@@ -2375,6 +2382,9 @@ en:
     log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
     log_obj_be: "%{what} '%{nm}' "
     log_results: Compiling results CSV file
+=======
+    clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
     ao: Archival Object
     tc: Top Container
     subj: Subject
@@ -2464,9 +2474,13 @@ en:
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+<<<<<<< HEAD
       wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
       cannot: Cannot continue due to previous errors
+=======
+      wrong_file_type: "Supplied files must be either CSV or XSLX. Content type given %{content_type}, file extension %{extension}."
+>>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
   top_container_linker:
     error:
       ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
