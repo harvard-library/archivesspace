@@ -1806,13 +1806,8 @@ en:
         import: Import from SpreadSheet
         drag_drop: Drag and drop file here
         clip_btn: Copy to Clipboard
-<<<<<<< HEAD
         only_validate: Only validate
         link_top_containers: Link Top Containers via Spreadsheet
-=======
-        link_top_containers: Link Top Containers via Spreadsheet
-
->>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
@@ -1821,7 +1816,6 @@ en:
         error: "ERROR: Error(s) detected: "
         copied: Copied!
         uncopied: Unable to copy
-<<<<<<< HEAD
         submitted: "<p>Job had been submitted to Background Jobs. <br/> Click 'Close' to refresh this screen.</p>"
   bulk_import_job:
     active: "There is a bulk import job active for this record, try editing later: <a href ='%{url}'>%{uri}</a>"
@@ -1829,5 +1823,3 @@ en:
     format: Download File Format
     filename: Speadsheet file name
     not_direct: At this time, this job can only be created from the Resource record
-=======
->>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git

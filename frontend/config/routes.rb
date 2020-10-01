@@ -115,16 +115,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:get]
-<<<<<<< HEAD
     match 'resources/:id/link_top_containers' => 'bulk_import#link_top_containers_to_archival_objects', :via => [:post]
-=======
-    match 'resources/:id/uploadbulkfile' => 'bulk_import#submit_file', :via => [:post]
-    match 'resources/:id/link_top_containers' => 'bulk_import#link_top_containers_to_archival_objects', :via => [:post]
-
-
-    
-
->>>>>>> branch 'top_container_upload_download_merge' of https://github.com/harvard-library/archivesspace.git
 
     match 'resources/:id/tree/root' => 'resources#tree_root', :via => [:get]
     match 'resources/:id/tree/node' => 'resources#tree_node', :via => [:get]
