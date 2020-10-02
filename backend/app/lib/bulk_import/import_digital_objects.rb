@@ -32,7 +32,7 @@ class ImportDigitalObjects < BulkImportParser
     dig_instance
   end
 
-  def process_row
+  def process_row(row_hash = nil)
     ret_str = ""
     errs = []
     begin

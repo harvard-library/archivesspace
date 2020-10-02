@@ -15,6 +15,34 @@ module BulkImportMixins
      "top_container", "container_profile", "location_profile",
      "owner_repo"]
   end
+  
+  def ao_save(ao)
+      revived = nil
+      if @validate_only
+        valid(ao, I18n.t("ao"))
+        ao.uri = ao.uri || "valid"
+        revived = ao
+      else
+        begin
+          archObj = nil
+          if ao.id.nil?
+            archObj = ArchivalObject.create_from_json(ao)
+          else
+            obj = ArchivalObject.get_or_die(ao.id)
+            archObj = obj.update_from_json(ao)
+          end
+          objs = ArchivalObject.sequel_to_jsonmodel([archObj])
+          revived = objs[0] if !objs.empty?
+        rescue JSONModel::ValidationException => ve
+          raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+        rescue Exception => e
+          Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
+          Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
+          raise e
+        end
+      end
+      revived
+    end
 
   def resource_from_ref(ead_id)
     dataset = CrudHelpers.scoped_dataset(Resource, {:ead_id => ead_id})
