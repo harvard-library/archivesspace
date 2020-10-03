@@ -32,6 +32,7 @@ class BulkImportParser
   def initialize(input_file, content_type, current_user, opts, log_method)
     @created_refs = []
     @input_file = input_file
+    @extension = File.extname(@input_file).strip.downcase
     @file_content_type = content_type
     @opts = opts
     @current_user = current_user
@@ -40,9 +41,11 @@ class BulkImportParser
     @start_position
     @need_to_move = false
     @log_method = log_method
-    @is_xslx = @file_content_type == "xlsx"
-    @is_csv = @file_content_type == "csv"
+    @is_xslx = file_is_xslx?
+   	@is_csv = file_is_csv?  
     @validate_only = opts[:validate]
+    initialize_handler_enums
+    @counter = 0
   end
 
   def record_uris
@@ -110,7 +113,7 @@ class BulkImportParser
     @report.set_file_name(@orig_filename)
     initialize_handler_enums
     jsonresource = Resource.to_jsonmodel(Integer(@opts[:rid]))
-    @resource = resolve_references(jsonresource, ["repository"])
+    @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]), ["repository"])
     @repository = @resource["repository"]["ref"]
     @hier = 1
     @counter = 0
@@ -131,6 +134,27 @@ class BulkImportParser
   end
 
   private
+  
+	def file_is_xslx?
+    return @file_content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" \
+    || @file_content_type == "xlsx" \
+    || @extension == ".xlsx"
+  end
+
+  #MS Excel in Windows assigns a CSV file a mime type of application/vnd.ms-excel
+  #The other suggestions are also some variations of other csv mime types found.  This is a catch-all
+  def file_is_csv?
+    return @file_content_type == "text/csv" \
+    || @file_content_type == "csv" \
+    || @file_content_type == "text/plain" \
+    || @file_content_type == "text/x-csv" \
+    || @file_content_type == "application/vnd.ms-excel" \
+    || @file_content_type == "application/csv" \
+    || @file_content_type == "application/x-csv" \
+    || @file_content_type == "text/comma-separated-values" \
+    || @file_content_type == "text/x-comma-separated-values" \
+    || @extension == ".csv"
+  end
 
   def find_headers
     while @headers.nil? && (row = @rows.next)
@@ -180,7 +204,7 @@ class BulkImportParser
   end
 
   # IMPLEMENT THIS IN YOUR bulk_import_parser sub-class
-  def process_row
+  def process_row(row_hash = nil)
     # overwrite this class
   end
 

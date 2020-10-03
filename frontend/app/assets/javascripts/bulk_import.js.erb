@@ -108,6 +108,26 @@
 		});
 	};
 
+    var handleTopContainerLinking = function($modal) {
+	    /* don't let the modal disappear on submission */
+		$modal.on("hide.bs.modal", function (event){
+		    event.preventDefault();
+		    event.stopImmediatePropagation();
+		});
+	    /* submit via ajax */
+	    $form = $("#bulk_import_form");
+		$(".bulkbtn").addClass('disabled');
+		$("#jsonmodel_type").val('top_container_linker_job');
+		$("#job_type").val('top_container_linker_job');
+		$form.submit();
+		$("#bulk_messages").html("<%= I18n.t('bulk_import._frontend.messages.submitted') %>");
+		modalSuccess($file_form_modal);
+	    $modal.on("hidden.bs.modal", function (event) {
+			$modal.hide();
+			$("body").css("overflow", "auto");
+		});
+	};
+
 	var openFileModal = function() {
 	    $file_form_modal = AS.openCustomModal("bulkIngestFileModal", "Load Spreadsheet",  file_modal_html, 'large', null, $("#bulkFileButton").get(0));
 	    initExcelFileUploadSection();
@@ -115,6 +135,12 @@
 		    event.stopPropagation();
 		    event.preventDefault();
 		    handleBulkFileUpload($file_form_modal);
+		});
+		
+		$("#linkTopContainersButton").on("click",  function(event) {
+		    event.stopPropagation();
+		    event.preventDefault();
+		    handleTopContainerLinking($file_form_modal);
 		});
 
 	    $file_form_modal.show();
