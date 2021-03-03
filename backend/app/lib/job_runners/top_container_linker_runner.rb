@@ -2,7 +2,7 @@ require_relative "../bulk_import/top_container_linker"
 
 class TopContainerLinkerRunner < JobRunner
 
-  register_for_job_type('top_container_linker_job', :hidden => true)
+  register_for_job_type('top_container_linker_job')
 
   def run
      
