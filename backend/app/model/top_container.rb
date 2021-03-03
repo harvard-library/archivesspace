@@ -104,6 +104,7 @@ class TopContainer < Sequel::Model(:top_container)
     }.select_all(:archival_object)
   end
 
+
   def walk_to_top_level_aos(ao_ids)
     result = []
     id_set = ao_ids
@@ -131,6 +132,7 @@ class TopContainer < Sequel::Model(:top_container)
   def self.find_title_for(series)
     series.respond_to?(:display_string) ? series.display_string : series.title
   end
+
 
   def level_display_string(series)
     series.other_level || I18n.t("enumerations.archival_record_level.#{series.level}", series.level)

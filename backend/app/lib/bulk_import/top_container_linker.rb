@@ -1,6 +1,5 @@
 require_relative "bulk_import_parser"
 require_relative "bulk_import_report"
-require_relative "top_container_linker_mixins"
 
 class TopContainerLinker < BulkImportParser
   include BulkImportMixins
@@ -59,7 +58,7 @@ class TopContainerLinker < BulkImportParser
     begin
       ao = nil
       # Check that the archival object ref id exists
-      ref_id = @row_hash[REF_ID]
+      ref_id = @row_hash["ref_id"]
 
       if ref_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ref_id_miss", :row_num => @counter.to_s)
@@ -78,7 +77,7 @@ class TopContainerLinker < BulkImportParser
         raise BulkImportException.new("No AO found;" + err_arr)
       end
       
-      ead_id = @row_hash[EAD_ID]
+      ead_id = @row_hash["ead_id"]
       if ead_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ead_id_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       else 
@@ -92,14 +91,14 @@ class TopContainerLinker < BulkImportParser
       end
       
       #Check that the instance type exists
-      instance_type = @row_hash[INSTANCE_TYPE]
+      instance_type = @row_hash["instance_type"]
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
       
       #Check that either the Top Container Indicator or Top Container Record No. is present
-      tc_indicator = @row_hash[TOP_CONTAINER_INDICATOR]
-      tc_record_no = @row_hash[TOP_CONTAINER_ID]
+      tc_indicator = @row_hash["top_container_indicator"]
+      tc_record_no = @row_hash["top_container_id"]
       #Both missing  
       if (tc_indicator.nil? && tc_record_no.nil?)
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
@@ -109,10 +108,10 @@ class TopContainerLinker < BulkImportParser
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_exist", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
       #Container type/Container indicator combo already exists 
-      tc_type = @row_hash[TOP_CONTAINER_TYPE]
+      tc_type = @row_hash["top_container_type"]
       tc_instance = nil
       if (!tc_indicator.nil? && !tc_type.nil?)
-        barcode = @row_hash[TOP_CONTAINER_BARCODE]
+        barcode = @row_hash["top_container_barcode"]
         tc_jsonmodel_obj = @cih.get_top_container_json_from_hash(tc_type, tc_indicator, barcode, @resource_ref)
         display_indicator = tc_indicator;
         if (tc_jsonmodel_obj.nil?)
@@ -130,9 +129,9 @@ Log.info(  tc_instance)
           #Cannot find TC record with ID
           err_arr.push I18n.t("top_container_linker.error.tc_record_no_missing", :tc_id=> tc_record_no, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         else
-          child_type = @row_hash[CHILD_TYPE]
-          child_indicator = @row_hash[CHILD_INDICATOR]
-          barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
+          child_type = @row_hash["child_type"]
+          child_indicator = @row_hash["child_indicator"]
+          barcode_2 = @row_hash["child_barcode"]
           subcontainer = {}
           if (!child_type.nil? && !child_indicator.nil?)
             subcontainer = { "type_2" => child_type.strip,
@@ -167,12 +166,12 @@ Log.info(  tc_instance)
   
   def create_top_container_instance(instance_type, indicator, type, err_arr, ref_id, row_num)
     #Find the top container with this indicator and type if it exists
-    barcode = @row_hash[TOP_CONTAINER_BARCODE]
+    barcode = @row_hash["top_container_barcode"]
     tc_obj = @cih.get_top_container_json_from_hash(type, indicator, barcode, @resource_ref)
     #Check if the location ID can be found in the db
-    child_type = @row_hash[CHILD_TYPE]
-    child_indicator = @row_hash[CHILD_INDICATOR]
-    barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
+    child_type = @row_hash["child_type"]
+    child_indicator = @row_hash["child_indicator"]
+    barcode_2 = @row_hash["child_barcode"]
     subcontainer = {}
     if (!child_type.nil? && !child_indicator.nil?)
       subcontainer = { "type_2" => child_type.strip,
@@ -206,7 +205,7 @@ Log.info(  tc_instance)
       now = Time.now
         
       #Check if the location ID can be found in the db
-      loc_id = @row_hash[LOCATION_ID]
+      loc_id = @row_hash["location_id"]
       if (!loc_id.nil?)
         loc = Location.get_or_die(loc_id.strip.to_i)
         if (loc.nil?)
@@ -229,7 +228,7 @@ Log.info(  tc_instance)
       end
       
       #Check if Container Profile Record No. can be found in the db 
-      cp_id = @row_hash[CONTAINER_PROFILE_ID]
+      cp_id = @row_hash["container_profile_id"]
       if (!cp_id.nil?)
         cp = ContainerProfile.get_or_die(cp_id.strip.to_i)
         if (cp.nil?)

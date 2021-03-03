@@ -2480,6 +2480,7 @@ en:
       wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
       cannot: Cannot continue due to previous errors
+      sc_barcode: "Can not find a Sub Container with this Child Barcode %{barcode}"
   top_container_linker:
     error:
       ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."

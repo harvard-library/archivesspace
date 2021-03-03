@@ -1,5 +1,4 @@
 require_relative "bulk_import_parser"
-require_relative "top_container_linker_mixins"
 
 class TopContainerLinkerValidator < BulkImportParser
   include BulkImportMixins
@@ -23,9 +22,9 @@ class TopContainerLinkerValidator < BulkImportParser
     end
     err_arr = []
     begin
-              
+
       # Check that the archival object ref id exists
-      ref_id = @row_hash[REF_ID]
+      ref_id = @row_hash["ref_id"]
       if ref_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ref_id_miss", :row_num => @counter.to_s)
         raise BulkImportException.new(err_arr.join("; "))
@@ -37,7 +36,7 @@ class TopContainerLinkerValidator < BulkImportParser
         end
       end
       
-      ead_id = @row_hash[EAD_ID]
+      ead_id = @row_hash["ead_id"]
       if ead_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ead_id_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       else 
@@ -52,14 +51,14 @@ class TopContainerLinkerValidator < BulkImportParser
             
      
       #Check that the instance type exists
-      instance_type = @row_hash[INSTANCE_TYPE]
+      instance_type = @row_hash["instance_type"]
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
       
       #Check that either the Top Container Indicator or Top Container Record No. is present
-      tc_indicator = @row_hash[TOP_CONTAINER_INDICATOR]
-      tc_record_no = @row_hash[TOP_CONTAINER_ID]
+      tc_indicator = @row_hash["top_container_indicator"]
+      tc_record_no = @row_hash["top_container_id"]
       #Both missing  
       if (tc_indicator.nil? && tc_record_no.nil?)
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
@@ -82,7 +81,7 @@ class TopContainerLinkerValidator < BulkImportParser
       end
       
       #Container type/Container indicator combo already exists 
-      tc_type = @row_hash[TOP_CONTAINER_TYPE]
+      tc_type = @row_hash["top_container_type"]
       if (!tc_indicator.nil? && !tc_type.nil?)
         type_id = BackendEnumSource.id_for_value("container_type",tc_type.strip)
         tc_exists = indicator_and_type_exist_for_resource?(ead_id, tc_indicator, type_id)
@@ -92,7 +91,7 @@ class TopContainerLinkerValidator < BulkImportParser
       end
       
       #Check if the barcode already exists in the db (fail if so)
-      barcode = @row_hash[TOP_CONTAINER_BARCODE]
+      barcode = @row_hash["top_container_barcode"]
       if (!barcode.nil?)
         tc_obj = find_top_container({:barcode => barcode.strip})
         if (!tc_obj.nil?)
@@ -107,9 +106,9 @@ class TopContainerLinkerValidator < BulkImportParser
       
       #Check if the barcode_2 already exists in the db (fail if so).  
       #This will be put in place when Harvard's code is merged
-      barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
-      child_type = @row_hash[CHILD_TYPE]
-      child_indicator = @row_hash[CHILD_INDICATOR]
+      barcode_2 = @row_hash["child_barcode"]
+      child_type = @row_hash["child_type"]
+      child_indicator = @row_hash["child_indicator"]
       if (!barcode_2.nil?)
         sc_obj = sub_container_from_barcode(barcode_2.strip)
         if (!sc_obj.nil?)
@@ -123,7 +122,7 @@ class TopContainerLinkerValidator < BulkImportParser
       end
       
       #Check if the location ID can be found in the db
-      loc_id = @row_hash[LOCATION_ID]
+      loc_id = @row_hash["location_id"]
       if (!loc_id.nil?)
         begin
           loc = Location.get_or_die(loc_id.strip.to_i)
@@ -136,7 +135,7 @@ class TopContainerLinkerValidator < BulkImportParser
       end
       
       #Check if Container Profile Record No. can be found in the db 
-      cp_id = @row_hash[CONTAINER_PROFILE_ID]
+      cp_id = @row_hash["container_profile_id"]
       if (!cp_id.nil?)
         begin
           cp = ContainerProfile.get_or_die(cp_id.strip.to_i)

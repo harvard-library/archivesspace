@@ -49,9 +49,7 @@ frontend/default
 indexer/default
 public/default
 tech_docs
-/.project
 solr/lib/*.jar
 plugins/*/Gemfile.lock
 plugins/*/gems/*
 docker-compose.override.yml
-
