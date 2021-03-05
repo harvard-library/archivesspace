@@ -24,7 +24,7 @@ class ContainerInstanceHandler < Handler
       :barcode => barcode,
     }
   end
-  
+ 
   def get_top_container_json_from_hash(type, indicator, barcode, resource)
     top_container_json = build(type, indicator, barcode)
     tc_key = key_for(top_container_json, resource)
@@ -34,6 +34,13 @@ class ContainerInstanceHandler < Handler
     
   # returns a top container JSONModel
   def get_or_create(type, indicator, barcode, resource, report)
+    Log.info("LOG INFO container_instance_handler.rb get_or_create")
+    Log.info("type")
+    Log.info(type)
+    Log.info("indicator")
+    Log.info(indicator)
+    Log.info("barcode")
+    Log.info(barcode)
     begin
       top_container = build(type, indicator, barcode)
       tc_key = key_for(top_container, resource)
@@ -89,6 +96,17 @@ class ContainerInstanceHandler < Handler
   #
   def validate_container_instance(instance_type, type, instance, errs, subcont = {})
     sc = { "jsonmodeltype" => "sub_container" }
+    Log.info("LOG INFO container_instance_handler.rb validate_container_instance")
+    Log.info("sc")
+    Log.info(sc)
+    Log.info("instance_type")
+    Log.info(instance_type)
+    Log.info("type")
+    Log.info(type)
+    Log.info("instance")
+    Log.info(instance)
+    Log.info("errs")
+    Log.info(errs)
     if instance_type.nil?
       errs << I18n.t("bulk_import.error.missing_instance_type")
     else
@@ -125,6 +143,15 @@ class ContainerInstanceHandler < Handler
     errs = []
     instance = JSONModel(:instance).new._always_valid!
     sc = validate_container_instance(instance_type, type, instance, errs, subcont)
+    Log.info("LOG INFO container_instance_handler.rb create_container_instance")
+    Log.info("create_container_instance validate_container_instance sc")
+    Log.info(sc)
+    Log.info("instance_type")
+    Log.info(instance_type)
+    Log.info("type")
+    Log.info(type)
+    Log.info("instance")
+    Log.info(instance)
     tc = get_or_create(type, indicator, barcode, resource_uri, report)
     unless @validate_only || tc.nil? || sc.nil?
       begin

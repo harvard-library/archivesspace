@@ -1761,7 +1761,7 @@ en:
         drag_drop: Drag and drop file here
         clip_btn: Copy to Clipboard
         only_validate: Only validate
-        link_top_containers: Link Top Containers via Spreadsheet
+        link_top_containers: Link Top Containers
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet

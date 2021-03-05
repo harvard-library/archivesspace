@@ -14,7 +14,7 @@ class TopContainerLinkerValidator < BulkImportParser
   end
 
   # look for all the required fields to make sure they are legit
-  # strip all the strings and turn publish and restrictions_flaginto true/false
+  # strip all the strings and turn publish and restrictions_flag into true/false
   def process_row(row_hash = nil)
     #This allows the processing of a single row
     if (!row_hash.nil?)
@@ -48,10 +48,16 @@ class TopContainerLinkerValidator < BulkImportParser
           err_arr.push I18n.t("top_container_linker.error.resources_do_not_match", :spreadsheet_resource => resource.uri, :ead_id => ead_id.to_s, :current_resource => @resource_ref, :row_num => @counter.to_s)
         end
       end
-            
      
       #Check that the instance type exists
       instance_type = @row_hash["instance_type"]
+      Log.info("LOG INFO top_container_linker_validator.rb")
+      Log.info("instance_type")
+      Log.info(instance_type)
+      Log.info("ref_id")
+      Log.info(ref_id.to_s)
+      Log.info("row_num")
+      Log.info(@counter.to_s)
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end

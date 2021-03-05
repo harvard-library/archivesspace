@@ -46,7 +46,9 @@ class TopContainerLinker < BulkImportParser
 
   # look for all the required fields to make sure they are legit
   def process_row(row_hash = nil)
-    Log.info("PROCESS ROW")
+    Log.info("top_container_linker.rb PROCESS ROW")
+    Log.info("row_hash")
+    Log.info(row_hash)
     #This allows the processing of a single row
     if (!row_hash.nil?)
       @row_hash = row_hash
@@ -92,6 +94,13 @@ class TopContainerLinker < BulkImportParser
       
       #Check that the instance type exists
       instance_type = @row_hash["instance_type"]
+      Log.info("LOG INFO top_container_linker.rb")
+      Log.info("instance_type")
+      Log.info(instance_type)
+      Log.info("ref_id")
+      Log.info(ref_id.to_s)
+      Log.info("row_num")
+      Log.info(@counter.to_s)
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
@@ -121,8 +130,8 @@ class TopContainerLinker < BulkImportParser
           tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, err_arr, ref_id, @counter.to_s)
           display_indicator = tc_jsonmodel_obj.indicator
         end
-Log.info( "TC INSTANCE")
-Log.info(  tc_instance)
+      Log.info( "TC INSTANCE")
+      Log.info(  tc_instance)
       elsif (!tc_record_no.nil?)
         tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip.to_i)
         if tc_jsonmodel_obj.nil?
@@ -183,9 +192,14 @@ Log.info(  tc_instance)
     begin
       if (!tc_obj.nil?)
         #We may have created a new TC already during the iteration so only 
-        #grab the instance data from teh cih if that is the case
+        #grab the instance data from the container instance handler (@cih) if that is the case
+        Log.info("LOG INFO top_container_linker.rb")
+        Log.info("!tc_obj.nil? @cih.format_container_instance(instance_type, tc_obj, subcontainer)")
+        Log.info("We may have created a new TC already during the iteration so only grab the instance data from the container instance handler (@cih) if that is the case")
         instance = @cih.format_container_instance(instance_type, tc_obj, subcontainer)
       else
+        Log.info("LOG INFO top_container_linker.rb")
+        Log.info("tc_obj.nil? @cih.create_container_instance(instance_type, type, indicator, barcode, @resource_ref, @report, subcontainer)")
         instance = @cih.create_container_instance(instance_type, type, indicator, barcode, @resource_ref, @report, subcontainer)
     end
     rescue Exception => e

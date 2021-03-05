@@ -108,26 +108,6 @@
 		});
 	};
 
-    var handleTopContainerLinking = function($modal) {
-	    /* don't let the modal disappear on submission */
-		$modal.on("hide.bs.modal", function (event){
-		    event.preventDefault();
-		    event.stopImmediatePropagation();
-		});
-	    /* submit via ajax */
-	    $form = $("#bulk_import_form");
-		$(".bulkbtn").addClass('disabled');
-		$("#jsonmodel_type").val('top_container_linker_job');
-		$("#job_type").val('top_container_linker_job');
-		$form.submit();
-		$("#bulk_messages").html("<%= I18n.t('bulk_import._frontend.messages.submitted') %>");
-		modalSuccess($file_form_modal);
-	    $modal.on("hidden.bs.modal", function (event) {
-			$modal.hide();
-			$("body").css("overflow", "auto");
-		});
-	};
-    
 	var openFileModal = function() {
 	    $file_form_modal = AS.openCustomModal("bulkIngestFileModal", "Load Spreadsheet",  file_modal_html, 'large', null, $("#bulkFileButton").get(0));
 	    initExcelFileUploadSection();
@@ -136,14 +116,23 @@
 		    event.preventDefault();
 		    handleBulkFileUpload($file_form_modal);
 		});
-		
-		$("#linkTopContainersButton").on("click",  function(event) {
-		    event.stopPropagation();
-		    event.preventDefault();
-		    handleTopContainerLinking($file_form_modal);
-		});
 
-	    $file_form_modal.show();
+    // Toggle buttons event handler to set the job_type based on the load_type
+    $("#jobLoadTypeToggleButtons :input").change(function(event) {
+      var loadType = $(this).attr('value')
+      // Set the job_type based on the load_type
+      if (loadType == 'top_container_linker_job') {
+        // If load_type is 'top_container_linker_job' set the job_type to 'top_container_linker_job'
+        $("#jsonmodel_type").val('top_container_linker_job');
+        $("#job_type").val('top_container_linker_job');
+      } else {
+        // Else set the job_type back to the default value 'bulk_import_job'
+        $("#jsonmodel_type").val('bulk_import_job');
+        $("#job_type").val('bulk_import_job');
+      }
+    });
+
+	  $file_form_modal.show();
 	};
 
 	var modalError = function($modal) {
@@ -164,3 +153,12 @@
 		    window.location.reload(true);
 		});
 	}
+
+  /*
+		$("#linkTopContainersButton").on("click",  function(event) {
+		    event.stopPropagation();
+		    event.preventDefault();
+		    handleTopContainerLinking($file_form_modal);
+
+		});
+  */
