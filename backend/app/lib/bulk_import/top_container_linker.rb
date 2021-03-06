@@ -11,7 +11,7 @@ class TopContainerLinker < BulkImportParser
   
   def initialize(input_file, content_type, current_user, opts)
     super(input_file, content_type, current_user, opts, nil)
-    @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
+    @resource_ref = @opts[:resource_id]
     @start_marker = START_MARKER
   end
   

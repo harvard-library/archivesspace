@@ -1,5 +1,5 @@
 require_relative "../bulk_import/top_container_linker"
-
+require 'json'
 class TopContainerLinkerRunner < JobRunner
 
   register_for_job_type('top_container_linker_job', :hidden => true)
@@ -21,11 +21,18 @@ class TopContainerLinkerRunner < JobRunner
             input_file = @job.job_files[0].full_file_path
             
             current_user = User.find(:username => @job.owner.username)
+            @validate_only = @json.job["only_validate"] == "true"
+            params = parse_job_params_string(@json.job_params)
+            params[:validate] = @validate_only
+            params[:resource_id] = @json.job['resource_id']
+            params[:repo_id] = @job.repo_id
+
             @job.write_output("Creating new top container linker...")
             @job.write_output("Repository: " + @job.repo_id.to_s)
-            tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user,
-              {:rid => @json.job['resource_id'], :repo_id => @job.repo_id})
-            
+            @job.write_output(JSON.pretty_generate(job_data))
+            @job.write_output(JSON.pretty_generate(params))
+            tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user, params)
+
             begin 
               report = tcl.run
               write_out_errors(report)

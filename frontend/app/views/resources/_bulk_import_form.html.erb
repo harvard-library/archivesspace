@@ -10,41 +10,46 @@
       <input type='hidden' name='job[job_params][ref_id]' id='ref_id' value='<%= ref_id %>'/>
       <input type='hidden' name='job[job_params][position]' id='position' value='<%= position %>'/>
       <input type='hidden' name='job[job_params][type]' id='type' value='<%= type %>'/>
-      <!-- Set default job_type and jsonmodel_type these values can be overridden by selecting the Top Conatiner Linker toggle button -->
       <input type='hidden' name='job[job_type]' id='job_type' value='bulk_import_job' />
       <input type='hidden' name='job[jsonmodel_type]' id="jsonmodel_type" value='bulk_import_job'/>
       <input type='hidden' name='job[job_params][rid]' id='rid' value='<%= rid %>' />
-      <input type='hidden' name='job[resource_id]' value=<%= rid %> />
+      <input type='hidden' name='job[resource_id]' value='/repositories/<%=repo_id%>/resources/<%= rid %>' />
       <input type='hidden' name='job[job_params][aoid]' id='aoid' value='<%= aoid %>' />
       <input name="job[format]" value="csv" type="hidden"/>
       <section id="bulk_import_filename_">
-        <span class="btn btn-success btn-sm fileinput-button bulkbtn">
+        <label class="btn btn-success btn-sm fileinput-button bulkbtn">
           <span class="glyphicon glyphicon-plus icon-white"></span>
-          <span><%= I18n.t("bulk_import._frontend.actions.add_file")%></span>
+          <%= I18n.t("bulk_import._frontend.actions.add_file")%>
           <input name="files[]" type="file" id="excel_file"/>
           <input name="job[content_type]" id="file_type" type="hidden"/>
           <input name="job[filename]" id="job_filename" type="hidden"/>
-        </span>
+        </label>
 	      <span id="excel_filename"></span>
       </section>
       <div class="form-group">
         <% if AppConfig[:hide_do_load] || type != 'resource' %>
           <input type='hidden' value="ao" name="job[load_type]" />
         <% else %>
-          <!-- Toggle buttons to select the load_type and onChange the job_type will be set based on the selected load_type value -->
           <div id="jobLoadTypeToggleButtons" class="btn-group" data-toggle="buttons">
-            <!-- Bulk import toggle buttons and onChange the job_type will be set back to the default value 'bulk_import_job' -->
-            <label class="btn btn-primary active" style="border-radius:4px;"><input type="radio" value="ao" name="job[load_type]" checked="true"/><%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %></label>
-            <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="digital" name="job[load_type]"/><%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %></label>
+            <label class="btn btn-default bulktypebtn active" style="border-radius:4px;">
+              <input type="radio" value="ao" name="job[load_type]" checked="true"/>
+              <%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %>
+            </label>
+            <label class="btn btn-default bulktypebtn">
+              <input type="radio" value="digital" name="job[load_type]"/>
+              <%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %>
+            </label>
             <% if type == 'resource' %>
-              <!-- Top Container Linker toggle button and onChange the job_type will be set to 'top_container_linker_job' -->
-              <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="top_container_linker_job" name="job[load_type]"/><%= I18n.t('bulk_import._frontend.actions.link_top_containers') %></label>
+              <label class="btn btn-default bulktypebtn">
+                <input type="radio" value="top_container_linker_job" name="job[load_type]"/>
+                <%= I18n.t('bulk_import._frontend.actions.link_top_containers') %>
+              </label>
             <% end %>
           </div>
         <% end %>
         <div>
           <label>
-            <input class="checkbox-inline" type="checkbox"  name="job[only_validate]" id="only_validate" value="true"/>
+            <input class="checkbox-inline" type="checkbox" name="job[only_validate]" id="only_validate" value="true"/>
             <%= I18n.t('bulk_import._frontend.actions.only_validate') %>
           </label>
         </div>
