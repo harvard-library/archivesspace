@@ -34,13 +34,6 @@ class ContainerInstanceHandler < Handler
     
   # returns a top container JSONModel
   def get_or_create(type, indicator, barcode, resource, report)
-    Log.info("LOG INFO container_instance_handler.rb get_or_create")
-    Log.info("type")
-    Log.info(type)
-    Log.info("indicator")
-    Log.info(indicator)
-    Log.info("barcode")
-    Log.info(barcode)
     begin
       top_container = build(type, indicator, barcode)
       tc_key = key_for(top_container, resource)
@@ -96,17 +89,6 @@ class ContainerInstanceHandler < Handler
   #
   def validate_container_instance(instance_type, type, instance, errs, subcont = {})
     sc = { "jsonmodeltype" => "sub_container" }
-    Log.info("LOG INFO container_instance_handler.rb validate_container_instance")
-    Log.info("sc")
-    Log.info(sc)
-    Log.info("instance_type")
-    Log.info(instance_type)
-    Log.info("type")
-    Log.info(type)
-    Log.info("instance")
-    Log.info(instance)
-    Log.info("errs")
-    Log.info(errs)
     if instance_type.nil?
       errs << I18n.t("bulk_import.error.missing_instance_type")
     else
@@ -140,20 +122,31 @@ class ContainerInstanceHandler < Handler
   end
 
   def create_container_instance(instance_type, type, indicator, barcode, resource_uri, report, subcont = {})
+    Log.info("LOG INFO container_instance_handler.rb create_container_instance")
     errs = []
+    # TODO: A blank instance is created here with no data yet, so why is an instance with data still showing up in the system,
+    # regardless of whether it had an error?
+    # e.g. <JSONModel(:instance) {"jsonmodel_type"=>"instance", "is_representative"=>false, "instance_type"=>nil}>
     instance = JSONModel(:instance).new._always_valid!
     sc = validate_container_instance(instance_type, type, instance, errs, subcont)
-    Log.info("LOG INFO container_instance_handler.rb create_container_instance")
-    Log.info("create_container_instance validate_container_instance sc")
+    Log.info("validate_container_instance(instance_type, type, instance, errs, subcont)")
+    Log.info("sc")
     Log.info(sc)
     Log.info("instance_type")
     Log.info(instance_type)
     Log.info("type")
     Log.info(type)
+    # instance was created but it doesn't have the data yet
     Log.info("instance")
     Log.info(instance)
-    tc = get_or_create(type, indicator, barcode, resource_uri, report)
-    unless @validate_only || tc.nil? || sc.nil?
+    Log.info("errs")
+    Log.info(errs)
+  
+    # Get or create top container only if there are no errors
+    unless errs.empty? # this conditional check was added in the fixes branch but doesnt fix the issue
+      tc = get_or_create(type, indicator, barcode, resource_uri, report)
+    end
+    unless !errs.empty? || @validate_only || tc.nil? || sc.nil?
       begin
         sc["top_container"] = { "ref" => tc.uri }
         instance.sub_container = JSONModel(:sub_container).from_hash(sc)
@@ -173,6 +166,30 @@ class ContainerInstanceHandler < Handler
         sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
+    instance
+  end
+
+  def get_top_container_json_from_hash(type, indicator, barcode, resource)
+    top_container_json = build(type, indicator, barcode)
+    tc_key = key_for(top_container_json, resource)
+    tc = @top_containers.fetch(tc_key, nil)
+    tc
+  end
+
+  #Formats the container instance without a db retrieval or creation
+  def format_container_instance(instance_type, tc, subcont = {})
+    instance = nil
+    sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    instance = JSONModel(:instance).new._always_valid!
+    instance.instance_type = @instance_types.value(instance_type)
+    instance.sub_container = JSONModel(:sub_container).from_hash(sc)
     instance
   end
 end  # of container handler

@@ -130,8 +130,8 @@ class TopContainerLinker < BulkImportParser
           tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, err_arr, ref_id, @counter.to_s)
           display_indicator = tc_jsonmodel_obj.indicator
         end
-      Log.info( "TC INSTANCE")
-      Log.info(  tc_instance)
+      Log.info("tc_instance")
+      Log.info(tc_instance)
       elsif (!tc_record_no.nil?)
         tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip.to_i)
         if tc_jsonmodel_obj.nil?
