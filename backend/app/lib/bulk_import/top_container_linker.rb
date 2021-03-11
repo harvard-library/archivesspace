@@ -16,7 +16,7 @@ class TopContainerLinker < BulkImportParser
   end
   
   def initialize_handler_enums
-    @cih = ContainerInstanceHandler.new(@current_user)
+    @cih = ContainerInstanceHandler.new(@current_user, @validate_only)
   end
   
   # save (create/update) the archival object, then revive it

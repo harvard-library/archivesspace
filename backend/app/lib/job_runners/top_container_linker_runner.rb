@@ -31,14 +31,31 @@ class TopContainerLinkerRunner < JobRunner
             @job.write_output("Repository: " + @job.repo_id.to_s)
             @job.write_output(JSON.pretty_generate(job_data))
             @job.write_output(JSON.pretty_generate(params))
+            tclv = TopContainerLinkerValidator.new(input_file, @json.job["content_type"], current_user, params)
             tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user, params)
 
+            #First run a validation to make sure that the data is valid
             begin 
-              report = tcl.run
-              write_out_errors(report)
-              
-              self.success!
-              
+              @job.write_output("Validating spreadsheet data...")
+              errors_exist = validation_report = tclv.run
+              write_out_validation_errors(validation_report)
+        
+            rescue Exception => e
+              validation_report = tclv.report
+              write_out_validation_errors(validation_report)
+              errors_exist = true
+              @job.write_output(e.message)
+              @job.write_output(e.backtrace)
+            end
+                            
+            #If no errors happened, perform the linking  
+            begin 
+              @job.write_output("Creating and linking top containers...")
+              if (!error_exist)
+                report = tcl.run
+                write_out_errors(report)
+              end           
+              self.success! 
             rescue Exception => e
               report = tcl.report
               write_out_errors(report)
@@ -53,6 +70,25 @@ class TopContainerLinkerRunner < JobRunner
   end
   
   private
+  def write_out_validation_errors(report)
+    errors_exist = false
+    report.rows.each do |row|
+      #Report out the collected data:
+      if !row.errors.empty?
+        errors_exist = true
+        row.errors.each do |error|
+          @job.write_output(error)
+        end
+      end
+      if !row.info.empty?
+        row.info.each do |info|
+          @job.write_output(info)
+        end
+      end
+    end
+    errors_exist
+  end
+    
   def write_out_errors(report)
     modified_uris = []
     report.rows.each do |row|

@@ -11,6 +11,7 @@ class TopContainerLinkerValidator < BulkImportParser
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
     @start_marker = START_MARKER
     @barcode_tc_existing_in_spreadsheet = {}
+    @instance_types ||= CvList.new("instance_instance_type", @current_user) # for when we move instances over here
   end
 
   # look for all the required fields to make sure they are legit
@@ -60,6 +61,10 @@ class TopContainerLinkerValidator < BulkImportParser
       Log.info(@counter.to_s)
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+      end
+      retval = value_check(@instance_types, instance_type, [])
+      if (retval == nil) 
+        err_arr.push I18n.t("top_container_linker.error.instance_type_does_not_exist", :instance_type => instance_type, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
       
       #Check that either the Top Container Indicator or Top Container Record No. is present

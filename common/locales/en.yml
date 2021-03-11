@@ -2486,6 +2486,7 @@ en:
       ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
       ao_not_in_db: "Can not find Archival Object %{ref_id} in the database in row %{row_num}."
       instance_type_miss: "Instance Type missing from spreadsheet for row %{row_num} Archival Object %{ref_id}. "
+      instance_type_does_not_exist: "Instance Type %{instance_type} does not exist in the database (see row %{row_num} Archival Object %{ref_id}). "
       tc_indicator_and_record_no_miss: "Either a Top Container Indicator or TC Record Number must be present for %{ref_id} in row %{row_num}."
       tc_indicator_and_record_no_exist: "Only a Top Container Indicator OR TC Record Number can be present for %{ref_id} in row %{row_num}."
       tc_barcode_exists: "The Top Container Barcode, %{barcode} already exists in the database (see  %{ref_id} in row %{row_num})."
