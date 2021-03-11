@@ -149,16 +149,4 @@ class BulkImportRunner < JobRunner
     importer
   end
 
-  #def symbol_keys(hash)
-  #  h = hash.map do |k, v|
-  #    v_sym = if v.instance_of? Hash
-  #        v = symbol_keys(v)
-  #      else
-  #        v
-  #      end
-  #
-  #    [k.to_sym, v_sym]
-  #  end
-  #  Hash[h]
-  #end
 end

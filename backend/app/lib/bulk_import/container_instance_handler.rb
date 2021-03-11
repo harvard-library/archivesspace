@@ -141,12 +141,15 @@ class ContainerInstanceHandler < Handler
     Log.info(instance)
     Log.info("errs")
     Log.info(errs)
-  
-    # Get or create top container only if there are no errors
-    unless errs.empty? # this conditional check was added in the fixes branch but doesnt fix the issue
-      tc = get_or_create(type, indicator, barcode, resource_uri, report)
-    end
-    unless !errs.empty? || @validate_only || tc.nil? || sc.nil?
+    
+    # Get or create top container
+    tc = get_or_create(type, indicator, barcode, resource_uri, report)
+    Log.info("tc")
+    Log.info(tc)
+    Log.info("subcont")
+    Log.info(subcont)
+
+    unless @validate_only || tc.nil? || sc.nil?
       begin
         sc["top_container"] = { "ref" => tc.uri }
         instance.sub_container = JSONModel(:sub_container).from_hash(sc)
@@ -166,6 +169,9 @@ class ContainerInstanceHandler < Handler
         sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
+    Log.info("return instance")
+    Log.info(instance)
+
     instance
   end
 

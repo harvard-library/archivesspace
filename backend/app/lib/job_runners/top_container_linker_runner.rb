@@ -31,15 +31,19 @@ class TopContainerLinkerRunner < JobRunner
             @job.write_output("Repository: " + @job.repo_id.to_s)
             @job.write_output(JSON.pretty_generate(job_data))
             @job.write_output(JSON.pretty_generate(params))
+            
             tclv = TopContainerLinkerValidator.new(input_file, @json.job["content_type"], current_user, params)
             tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user, params)
 
             #First run a validation to make sure that the data is valid
             begin 
               @job.write_output("Validating spreadsheet data...")
-              errors_exist = validation_report = tclv.run
+              validation_report = tclv.run
+              if !validation_report.terminal_error.nil?
+                errors_exist = true
+              end
               write_out_validation_errors(validation_report)
-        
+
             rescue Exception => e
               validation_report = tclv.report
               write_out_validation_errors(validation_report)
@@ -48,15 +52,22 @@ class TopContainerLinkerRunner < JobRunner
               @job.write_output(e.backtrace)
             end
                             
-            #If no errors happened, perform the linking  
-            begin 
-              @job.write_output("Creating and linking top containers...")
-              if (!error_exist)
+            # Perform the linking if no validation errors happened and if the validate only option is not enabled
+            begin
+              Log.info('errors_exist')
+              Log.info(errors_exist)
+              if (@validate_only)
+                @job.write_output("Skipping creation and linking of top containers since validate only option is enabled.")
+              elsif (errors_exist)
+                @job.write_output("Skipping creation and linking of top containers due to errors.")
+              else
+                @job.write_output("Creating and linking top containers...")
                 report = tcl.run
                 write_out_errors(report)
               end           
               self.success! 
             rescue Exception => e
+              Log.info('ROLLBACK')
               report = tcl.report
               write_out_errors(report)
               @job.write_output(e.message)
