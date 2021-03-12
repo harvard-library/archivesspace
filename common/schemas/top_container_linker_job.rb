@@ -14,11 +14,16 @@
         "type" => "string",
         "ifmissing" => "error",
       },
+      "load_type" => {
+        "type" => "string",
+      },
       "content_type" => {
         "type" => "string",
         "ifmissing" => "error"
-      }
-
-    }
-  }
+      },
+      "only_validate" => {
+        "type" => "string",
+      },
+    },
+  },
 }

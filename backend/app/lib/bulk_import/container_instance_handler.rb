@@ -61,6 +61,7 @@ class ContainerInstanceHandler < Handler
     repo_id = resource_uri.split("/")[2]
     if !(ret_tc = get_db_tc_by_barcode(top_container[:barcode], repo_id))
       tc_str = "#{top_container[:type]} #{top_container[:indicator]}"
+      # tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
       tc_params = {}
       tc_params[:q] = "display_string:\"#{tc_str}\" AND collection_uri_u_sstr:\"#{resource_uri}\""
       ret_tc = search(nil, tc_params, :top_container, "top_container", "display_string:#{tc_str}")
@@ -122,33 +123,10 @@ class ContainerInstanceHandler < Handler
   end
 
   def create_container_instance(instance_type, type, indicator, barcode, resource_uri, report, subcont = {})
-    Log.info("LOG INFO container_instance_handler.rb create_container_instance")
     errs = []
-    # TODO: A blank instance is created here with no data yet, so why is an instance with data still showing up in the system,
-    # regardless of whether it had an error?
-    # e.g. <JSONModel(:instance) {"jsonmodel_type"=>"instance", "is_representative"=>false, "instance_type"=>nil}>
     instance = JSONModel(:instance).new._always_valid!
     sc = validate_container_instance(instance_type, type, instance, errs, subcont)
-    Log.info("validate_container_instance(instance_type, type, instance, errs, subcont)")
-    Log.info("sc")
-    Log.info(sc)
-    Log.info("instance_type")
-    Log.info(instance_type)
-    Log.info("type")
-    Log.info(type)
-    # instance was created but it doesn't have the data yet
-    Log.info("instance")
-    Log.info(instance)
-    Log.info("errs")
-    Log.info(errs)
-    
-    # Get or create top container
     tc = get_or_create(type, indicator, barcode, resource_uri, report)
-    Log.info("tc")
-    Log.info(tc)
-    Log.info("subcont")
-    Log.info(subcont)
-
     unless @validate_only || tc.nil? || sc.nil?
       begin
         sc["top_container"] = { "ref" => tc.uri }
@@ -169,9 +147,6 @@ class ContainerInstanceHandler < Handler
         sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
-    Log.info("return instance")
-    Log.info(instance)
-
     instance
   end
 

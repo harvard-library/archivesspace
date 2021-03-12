@@ -1,5 +1,5 @@
 require_relative "../bulk_import/top_container_linker"
-require 'json'
+
 class TopContainerLinkerRunner < JobRunner
 
   register_for_job_type('top_container_linker_job', :hidden => true)
@@ -16,7 +16,7 @@ class TopContainerLinkerRunner < JobRunner
           RequestContext.open(:current_username => @job.owner.username,
             :repo_id => @job.repo_id) do
             if @job.job_files.empty?
-              raise Exception.new("No file to process for top container linkin")
+              raise Exception.new(I18n.t("top_container_linker.error.job_file_empty"))
             end
             input_file = @job.job_files[0].full_file_path
             
@@ -27,17 +27,14 @@ class TopContainerLinkerRunner < JobRunner
             params[:resource_id] = @json.job['resource_id']
             params[:repo_id] = @job.repo_id
 
-            @job.write_output("Creating new top container linker...")
-            @job.write_output("Repository: " + @job.repo_id.to_s)
-            @job.write_output(JSON.pretty_generate(job_data))
-            @job.write_output(JSON.pretty_generate(params))
+            @job.write_output(I18n.t("top_container_linker.log_creating_linker", :repo_id => @job.repo_id.to_s))
             
             tclv = TopContainerLinkerValidator.new(input_file, @json.job["content_type"], current_user, params)
             tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user, params)
 
             #First run a validation to make sure that the data is valid
             begin 
-              @job.write_output("Validating spreadsheet data...")
+              @job.write_output(I18n.t("top_container_linker.log_validating"))
               validation_report = tclv.run
               if !validation_report.terminal_error.nil?
                 errors_exist = true
@@ -54,20 +51,19 @@ class TopContainerLinkerRunner < JobRunner
                             
             # Perform the linking if no validation errors happened and if the validate only option is not enabled
             begin
-              Log.info('errors_exist')
-              Log.info(errors_exist)
+              msg = ""
               if (@validate_only)
-                @job.write_output("Skipping creation and linking of top containers since validate only option is enabled.")
+                msg = I18n.t("top_container_linker.log_validate_only")
               elsif (errors_exist)
-                @job.write_output("Skipping creation and linking of top containers due to errors.")
+                msg = I18n.t("top_container_linker.log_skipping_due_to_errors")
               else
-                @job.write_output("Creating and linking top containers...")
+                msg = I18n.t("top_container_linker.log_creating_and_linking")
                 report = tcl.run
                 write_out_errors(report)
               end           
+              @job.write_output(msg)
               self.success! 
             rescue Exception => e
-              Log.info('ROLLBACK')
               report = tcl.report
               write_out_errors(report)
               @job.write_output(e.message)

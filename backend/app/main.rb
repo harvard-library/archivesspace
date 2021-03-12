@@ -26,7 +26,6 @@ require_relative 'lib/request_context'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
 require_relative 'lib/csv_template_generator'
-require_relative 'converters/marcxml_converter.rb'
 require 'solr_snapshotter'
 
 require 'barcode_check'

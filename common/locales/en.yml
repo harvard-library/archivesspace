@@ -2504,4 +2504,9 @@ en:
       tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
       resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
       resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"
-
+      job_file_empty: "No file to process for top container linking"
+    log_creating_linker: "Creating new top container linker for repository: %{repo_id}"
+    log_validate_only: "Skipping creation and linking of top containers since validate only option is enabled."
+    log_skipping_due_to_errors: "Skipping creation and linking of top containers due to errors."
+    log_validating: "Validating spreadsheet data..."
+    log_creating_and_linking: "Creating and linking top containers..."

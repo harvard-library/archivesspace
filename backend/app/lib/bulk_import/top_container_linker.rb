@@ -46,9 +46,6 @@ class TopContainerLinker < BulkImportParser
 
   # look for all the required fields to make sure they are legit
   def process_row(row_hash = nil)
-    Log.info("top_container_linker.rb PROCESS ROW")
-    Log.info("row_hash")
-    Log.info(row_hash)
     #This allows the processing of a single row
     if (!row_hash.nil?)
       @row_hash = row_hash
@@ -94,13 +91,6 @@ class TopContainerLinker < BulkImportParser
       
       #Check that the instance type exists
       instance_type = @row_hash["instance_type"]
-      Log.info("LOG INFO top_container_linker.rb")
-      Log.info("instance_type")
-      Log.info(instance_type)
-      Log.info("ref_id")
-      Log.info(ref_id.to_s)
-      Log.info("row_num")
-      Log.info(@counter.to_s)
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
@@ -130,8 +120,6 @@ class TopContainerLinker < BulkImportParser
           tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, err_arr, ref_id, @counter.to_s)
           display_indicator = tc_jsonmodel_obj.indicator
         end
-      Log.info("tc_instance")
-      Log.info(tc_instance)
       elsif (!tc_record_no.nil?)
         tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip.to_i)
         if tc_jsonmodel_obj.nil?
@@ -174,9 +162,6 @@ class TopContainerLinker < BulkImportParser
   end
   
   def create_top_container_instance(instance_type, indicator, type, err_arr, ref_id, row_num)
-    Log.info("LOG INFO create_top_container_instance")
-    Log.info("indicator")
-    Log.info(indicator)
     #Find the top container with this indicator and type if it exists
     barcode = @row_hash["top_container_barcode"]
     tc_obj = @cih.get_top_container_json_from_hash(type, indicator, barcode, @resource_ref)
@@ -196,12 +181,8 @@ class TopContainerLinker < BulkImportParser
       if (!tc_obj.nil?)
         #We may have created a new TC already during the iteration so only 
         #grab the instance data from the container instance handler (@cih) if that is the case
-        Log.info("!tc_obj.nil? @cih.format_container_instance(instance_type, tc_obj, subcontainer)")
-        Log.info("We may have created a new TC already during the iteration so only grab the instance data from the container instance handler (@cih) if that is the case")
         instance = @cih.format_container_instance(instance_type, tc_obj, subcontainer)
       else
-        Log.info("tc_obj.nil? @cih.create_container_instance(instance_type, type, indicator, barcode, @resource_ref, @report, subcontainer)")
-        Log.info("Create a new container instance via @cih")
         instance = @cih.create_container_instance(instance_type, type, indicator, barcode, @resource_ref, @report, subcontainer)
     end
     rescue Exception => e
