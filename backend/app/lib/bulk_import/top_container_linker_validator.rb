@@ -52,13 +52,6 @@ class TopContainerLinkerValidator < BulkImportParser
      
       #Check that the instance type exists
       instance_type = @row_hash["instance_type"]
-      Log.info("LOG INFO top_container_linker_validator.rb")
-      Log.info("instance_type")
-      Log.info(instance_type)
-      Log.info("ref_id")
-      Log.info(ref_id.to_s)
-      Log.info("row_num")
-      Log.info(@counter.to_s)
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
