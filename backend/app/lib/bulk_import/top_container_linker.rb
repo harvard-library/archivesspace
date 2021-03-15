@@ -13,6 +13,7 @@ class TopContainerLinker < BulkImportParser
     super(input_file, content_type, current_user, opts, nil)
     @resource_ref = @opts[:resource_id]
     @start_marker = START_MARKER
+    @counter = 0
   end
   
   def initialize_handler_enums

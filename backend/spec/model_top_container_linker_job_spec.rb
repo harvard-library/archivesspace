@@ -4,7 +4,7 @@ def top_container_linker_job(filepath)
     build(:json_job,
             :job_type => 'top_container_linker_job',
             :job => build(:json_top_container_linker_job,
-              :filename => filepath.path, :content_type => 'text/csv', :resource_id => 1234))
+              :filename => filepath.path, :content_type => 'text/csv', :resource_id => "/repositories/#{$repo_id}/resources/1234"))
 end
 
 describe "Top Container Linker job model" do
@@ -32,7 +32,7 @@ describe "Top Container Linker job model" do
     blob = ASUtils.json_parse(job.job_blob)
     expect(blob["content_type"]).to eq('text/csv')
     expect(job.job_files).not_to be_empty
-    expect(blob["resource_id"]).to eq(1234)
+    expect(blob["resource_id"]).to eq("/repositories/#{$repo_id}/resources/1234")
   end
   
   it "can run the job" do
