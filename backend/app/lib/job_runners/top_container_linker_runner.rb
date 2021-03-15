@@ -22,7 +22,11 @@ class TopContainerLinkerRunner < JobRunner
             
             current_user = User.find(:username => @job.owner.username)
             @validate_only = @json.job["only_validate"] == "true"
-            params = parse_job_params_string(@json.job_params)
+
+            params = {}
+            if not @json.job_params.nil? and not @json.job_params == "null"
+              params = parse_job_params_string(@json.job_params)
+            end
             params[:validate] = @validate_only
             params[:resource_id] = @json.job['resource_id']
             params[:repo_id] = @job.repo_id

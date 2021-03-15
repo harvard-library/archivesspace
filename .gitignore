@@ -53,3 +53,4 @@ solr/lib/*.jar
 plugins/*/Gemfile.lock
 plugins/*/gems/*
 docker-compose.override.yml
+.project
