@@ -10,10 +10,19 @@ class TopContainerLinker < BulkImportParser
   attr_reader :report
   
   def initialize(input_file, content_type, current_user, opts)
+    init_handlers = false
+    if (opts[:initialize_enums])
+      opts.delete(:initialize_enums)
+      init_handlers = true
+    end
     super(input_file, content_type, current_user, opts, nil)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
     @start_marker = START_MARKER
     @counter = 0
+    if (init_handlers)
+      initialize_handler_enums()
+    end
+        
   end
   
   def initialize_handler_enums

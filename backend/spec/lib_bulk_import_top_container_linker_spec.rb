@@ -36,7 +36,9 @@ describe "Top Container Linker" do
       opts1 = { :repo_id => @resource[:repo_id],
                 :rid => @resource[:id],
                 :filename => "testTopLinkerUpload.csv",
-                :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv"}
+                :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv",
+                :validate => false,
+                :initialize_enums => true}
               
       @tcl1 = TopContainerLinker.new(opts1[:filepath], "text/csv", @current_user, opts1)
       @cih1 = @tcl1.instance_variable_get(:@cih)
@@ -49,7 +51,9 @@ describe "Top Container Linker" do
                      :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.xlsx",
                      :ref_id => "",
                      :aoid => "",
-                     :position => "" }
+                     :position => "" ,
+                     :validate => false,
+                     :initialize_enums => true}
             
       @tclexcel = TopContainerLinker.new(optsexcel[:filepath], "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", @current_user, optsexcel)
       @cihexcel = @tclexcel.instance_variable_get(:@cih)
@@ -77,7 +81,9 @@ describe "Top Container Linker" do
       opts2 = { :repo_id => @resource2[:repo_id],
                          :rid => @resource2[:id],
                          :filename => "testTopLinkerUpload.csv",
-                         :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv"}
+                         :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv",
+                         :validate => false,
+                         :initialize_enums => true}
       
       @tcl2 = TopContainerLinker.new(opts2[:filepath], "text/csv", @current_user, opts2)
       @cih2 = @tcl2.instance_variable_get(:@cih)
@@ -95,7 +101,9 @@ describe "Top Container Linker" do
       opts3 = { :repo_id => @resource3[:repo_id],
             :rid => @resource3[:id],
             :filename => "testTopLinkerUpload.csv",
-            :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv"}
+            :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv",
+            :validate => false,
+            :initialize_enums => true}
           
       @tcl3 = TopContainerLinker.new(opts3[:filepath], "text/csv", @current_user, opts3)
       @cih3 = @tcl3.instance_variable_get(:@cih)
